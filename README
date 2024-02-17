@@ -1,0 +1,24 @@
+
+              /********************** Compilação e Execução do Programa **********************/
+
+  - Terminal : Escrever 'make' na pasta 'obj', sendo que, para executar o programa, basta escrever, ainda nesta pasta,
+'../bin/Projecto.exe'.
+
+
+                      /********************** Considerações **********************/
+
+  Apenas por uma questão de eficiência e rapidez, decidiu-se colocar o método RK4_iterator(), pertencente à
+classe 'ODEsolver', como público (poder-se-ia, também, definir um método público cujo propósito fosse exclusivamente
+chamar o método privado correspondente), uma vez que, no método TimeStep() da classe PIC, apenas é efetuada uma iteração
+por Runge-Kutta 4 e, por isso, recorrer a RK4solver() apenas contribuiria para atrasar o processo de cálculo. No entanto,
+uma solução usando RK4solver() encontra-se, sob a forma de comentário, presente em TimeStep().
+
+  De igual modo, acrescentou-se ainda o método UpdateParameter(), mais uma vez, por uma questão de rapidez de cálculo. Uma
+solução que fizesse uso apenas dos métodos anteriormente presentes na classe seria:
+
+   - Definir um vector<TFormula> ODE como membro privado da classe PIC (igual ao declarado no constructor);
+   - E, em cada iteração do ciclo 'for()' presente em TimeStep() fazer-se:
+      ODE[1].SetParameter(0, Pot.Deriv(x_vpart[i][0]));
+      Equation.SetODEfunc(ODE);
+
+em vez de : Equation.UpdateParameter(1, 0, Pot.Deriv(x_vpart[i][0])).
